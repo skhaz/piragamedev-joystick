@@ -33,8 +33,6 @@
 RingBuff_t USARTtoUSB_Buffer;
 USB_JoystickReport_Data_t JoystickReportData;
 
-int16_t x = 0;
-
 int main(void)
 {
     SetupHardware();
@@ -105,10 +103,6 @@ bool GetNextReport()
     uint32_t BufferCount = RingBuffer_GetCount(&USARTtoUSB_Buffer);
 
     if (BufferCount >= (sizeof(USB_JoystickReport_Data_t))) {
-        /*
-         *  Maneira coxinha de pegar os dados do ring buffer,
-         *  e transferir para a estrutura, apenas para fins ditaticos
-         */
         uint8_t _1 = RingBuffer_Remove(&USARTtoUSB_Buffer);
         uint8_t _2 = RingBuffer_Remove(&USARTtoUSB_Buffer);
         uint8_t _3 = RingBuffer_Remove(&USARTtoUSB_Buffer);
@@ -149,4 +143,3 @@ ISR(USART1_RX_vect, ISR_BLOCK)
         RingBuffer_Insert(&USARTtoUSB_Buffer, ReceivedByte);
     }
 }
-
